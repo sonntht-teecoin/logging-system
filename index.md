@@ -1,20 +1,49 @@
-.. logging-system documentation master file, created by
-   sphinx-quickstart on Wed Mar 13 15:32:34 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+# Logging System
 
-Welcome to logging-system's documentation!
-==========================================
+This web page documents how to build a convenient centralised log server and log management web interface, by packaging [Elasticsearch](http://www.elasticsearch.org/), [Logstash](http://logstash.net/), and [Kibana](http://www.elasticsearch.org/overview/kibana/), collectively known as ELK.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+### Contents ###
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+	- [Pulling specific version combinations](#specific-version-combinations)
+- [Usage](#usage)
+	- [Running the container using Docker Compose](#running-with-docker-compose)
+	- [Running the container using Kitematic](#running-with-kitematic)
+	- [Creating a dummy log entry](#creating-dummy-log-entry)
+	- [Starting services selectively](#selective-services)
+	- [Overriding start-up variables](#overriding-variables)
+	- [Pre-hooks and post-hooks](#pre-post-hooks)
+- [Forwarding logs](#forwarding-logs)
+	- [Forwarding logs with Filebeat](#forwarding-logs-filebeat)
+	- [Connecting a Docker container to an ELK container running on the same host](#connecting-containers)
+- [Building the image](#building-image)
+- [Tweaking the image](#tweaking-image)
+	- [Updating Logstash's configuration](#updating-logstash-configuration)
+	- [Installing Elasticsearch plugins](#installing-elasticsearch-plugins)
+	- [Installing Logstash plugins](#installing-logstash-plugins)
+	- [Installing Kibana plugins](#installing-kibana-plugins)
+- [Persisting log data](#persisting-log-data)
+- [Snapshot and restore](#snapshot-restore)
+- [Setting up an Elasticsearch cluster](#elasticsearch-cluster)
+	- [Running Elasticsearch nodes on different hosts](#elasticsearch-cluster-different-hosts)
+	- [Running Elasticsearch nodes on a single host](#elasticsearch-cluster-single-host)
+	- [Optimising your Elasticsearch cluster](#optimising-elasticsearch-cluster)
+- [Security considerations](#security-considerations)
+	- [Notes on certificates](#certificates)
+	- [Disabling SSL/TLS](#disabling-ssl-tls)
+- [Frequently encountered issues](#frequent-issues)
+ 	- [Elasticsearch is not starting (1): `max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]`](#es-not-starting-max-map-count)
+	- [Elasticsearch is not starting (2): `cat: /var/log/elasticsearch/elasticsearch.log: No such file or directory`](#es-not-starting-not-enough-memory)
+	- [Elasticsearch is not starting (3): bootstrap tests](#es-not-starting-bootstrap-tests)
+	- [Elasticsearch is suddenly stopping after having started properly](#es-suddenly-stopping)
+	- [Miscellaneous](#issues-misc)
+- [Known issues](#known-issues)
+- [Troubleshooting](#troubleshooting)
+	- [If Elasticsearch isn't starting...](#es-not-starting)
+	- [If your log-emitting client doesn't seem to be able to reach Logstash...](#logstash-unreachable)
+	- [Additional tips](#general-troubleshooting)
+- [Reporting issues](#reporting-issues)
+- [Breaking changes](#breaking-changes)
+- [References](#references)
+- [About](#about)
