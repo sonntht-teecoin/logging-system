@@ -12,7 +12,7 @@ Welcome to logging-system's documentation!
 
 
 
-Indices and tables
+### Contents ###
 ==================
 
 * :ref:`genindex`
